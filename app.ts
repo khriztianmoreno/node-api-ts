@@ -6,18 +6,25 @@ dotEnv.config()
 
 import expressConfig from './config/express'
 import connectDB from './database'
+import routes from './routes';
 
 // setup server
 const app = express()
 const server = createServer(app)
 
+// setup express
 expressConfig(app)
-connectDB()
 
 function startServer() {
   const PORT = process.env.PORT as string || 3000
   server.listen(PORT, () => {
     console.log(`Servidor corriendo en el puerto ${PORT} ...`)
+
+    // connect to database
+    connectDB()
+
+    // routes
+    routes(app)
   })
 }
 
