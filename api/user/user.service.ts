@@ -1,5 +1,5 @@
 import { DocumentDefinition, FilterQuery } from 'mongoose';
-import { omit } from 'lodash';
+import crypto from 'crypto';
 
 import User, { UserDocument } from './user.model';
 
@@ -9,6 +9,14 @@ export async function createUser(input: DocumentDefinition<UserDocument>) {
   } catch (error: any) {
     throw new Error(error);
   }
+}
+
+export async function createResetToken(newUser: DocumentDefinition<UserDocument>) {
+  const hash = crypto.createHash('sha256').update(newUser.email).digest('hex')
+  newUser.passwordResetToken = hash;
+  newUser.passwordResetExpires = String(Date.now() + 86400000); // 24 hour
+
+  return newUser
 }
 
 export async function listUsers() {

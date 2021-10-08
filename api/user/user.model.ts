@@ -6,9 +6,11 @@ export interface UserDocument extends mongoose.Document {
   firstName: string;
   lastName: string;
   password: string;
+  passwordResetToken: string;
+  passwordResetExpires: Date;
+  role: 'user' | 'admin' | 'manager';
   createdAt: Date;
   updatedAt: Date;
-  role: 'user' | 'admin' | 'manager';
 }
 
 const UserSchema = new mongoose.Schema({
