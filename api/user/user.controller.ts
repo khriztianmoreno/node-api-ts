@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { omit } from 'lodash';
 
+import log from '../../logger';
 import { createUser, listUsers, getUser, deleteUser } from './user.service';
 
 export async function listUserHanndler(req: Request, res: Response) {
@@ -9,7 +10,7 @@ export async function listUserHanndler(req: Request, res: Response) {
 
     return res.status(200).json(users)
   } catch (e: any) {
-    console.error(e);
+    log.error(e);
     return res.status(409).send(e.message);
   }
 }
@@ -19,7 +20,7 @@ export async function createUserHandler(req: Request, res: Response) {
     const user = await createUser(req.body);
     return res.send(omit(user.toJSON(), 'password'));
   } catch (e: any) {
-    console.error(e);
+    log.error(e);
     return res.status(409).send(e.message);
   }
 }
@@ -34,7 +35,7 @@ export async function getUserHandler(req: Request, res: Response) {
     }
     return res.json(user)
   } catch (e: any) {
-    console.error(e);
+    log.error(e);
     return res.status(409).send(e.message);
   }
 }
@@ -47,7 +48,7 @@ export async function deleteUserHandler(req: Request, res: Response) {
 
     return res.status(204).end()
   } catch (e: any) {
-    console.error(e);
+    log.error(e);
     return res.status(409).send(e.message);
   }
 }

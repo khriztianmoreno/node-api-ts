@@ -1,5 +1,7 @@
 import mongoose from 'mongoose'
 
+import log from './logger';
+
 async function connectDB() {
   const dbUri = process.env.MONGO_URI as string
 
@@ -9,10 +11,10 @@ async function connectDB() {
       useUnifiedTopology: true,
     })
     .then(() => {
-      console.log('MongoDB Connected')
+      log.info('MongoDB Connected')
     })
     .catch(err => {
-      console.log(err)
+      log.error(err)
       process.exit(-1)
     });
 
